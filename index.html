@@ -9,9 +9,11 @@
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="css/styles.css?v=6">
+    <link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body>
+
+    <div class="progress" id="progress" aria-hidden="true"></div>
 
     <header class="nav" id="nav">
         <div class="nav-inner">
@@ -93,22 +95,15 @@
             </div>
         </section>
 
-        <!-- ============ GALLERY : follow the trail, bubbles slide in ============ -->
-        <section class="album" id="gallery">
-            <div class="wrap head reveal">
-                <p class="kicker">Gallery</p>
-                <h2 class="h2">[ Follow the trail ]</h2>
-                <p class="album-hint">Wind down the trail ↓</p>
+        <!-- ============ GALLERY ============ -->
+        <section class="section gallery" id="gallery">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="kicker">Gallery</p>
+                    <h2 class="h2">[ On the mountain ]</h2>
+                </div>
             </div>
-            <div class="trailmap" id="trailmap">
-                <div class="trail-peak" data-depth="0.5" aria-hidden="true"></div>
-                <svg class="trail-line" viewBox="0 0 100 1200" preserveAspectRatio="none" aria-hidden="true">
-                    <path id="galPath" pathLength="1000" vector-effect="non-scaling-stroke"
-                          d="M50,0 C50,50 30,70 30,110 S70,220 70,280 S28,390 28,450 S72,560 72,620 S30,730 30,790 S68,900 68,960 S40,1060 40,1110"
-                          fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000"/>
-                </svg>
-                <div class="bubbles" id="bubbles"></div>
-            </div>
+            <div class="grid" id="galleryGrid"></div>
         </section>
 
         <!-- ============ ADVENTURES ============ -->
@@ -163,6 +158,6 @@
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="js/photos.js?v=3"></script>
-    <script src="js/main.js?v=6"></script>
+    <script src="js/main.js?v=7"></script>
 </body>
 </html>

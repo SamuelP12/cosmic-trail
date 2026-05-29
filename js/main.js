@@ -27,65 +27,54 @@
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    /* Nav state */
+    /* Nav state + scroll progress bar */
     const nav = document.getElementById('nav');
-    const onScroll = () => { if (nav) nav.classList.toggle('scrolled', (window.scrollY || 0) > 24); };
+    const progress = document.getElementById('progress');
+    const onScroll = () => {
+        const y = window.scrollY || 0;
+        if (nav) nav.classList.toggle('scrolled', y > 24);
+        if (progress) {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            progress.style.width = (max > 0 ? (y / max) * 100 : 0).toFixed(2) + '%';
+        }
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    /* Gallery — 7 photo bubbles that slide in along a winding trail */
-    const bubblesWrap = document.getElementById('bubbles');
-    if (bubblesWrap) {
+    /* Gallery (square tiles from the album) — cascade in by row */
+    const grid = document.getElementById('galleryGrid');
+    if (grid) {
         const items = (window.GALLERY && window.GALLERY.length) ? window.GALLERY.slice() : [];
-        const POS = [
-            { l: 30, t: 9.2,  s: -72, max: 230 },
-            { l: 70, t: 23.3, s:  72, max: 185 },
-            { l: 28, t: 37.5, s: -72, max: 205 },
-            { l: 72, t: 51.7, s:  72, max: 175 },
-            { l: 30, t: 65.8, s: -72, max: 215 },
-            { l: 68, t: 80.0, s:  72, max: 190 },
-            { l: 40, t: 92.5, s: -72, max: 235 }
-        ];
-        POS.forEach((p, i) => {
+        const TILES = Math.min(8, items.length || 8);
+        for (let i = 0; i < TILES; i++) {
             const it = items.length ? items[i % items.length] : null;
             const fig = document.createElement('figure');
-            fig.className = 'bubble';
-            fig.style.cssText = 'left:' + p.l + '%;top:' + p.t + '%;--slide:' + p.s + 'px;--size:clamp(120px,21vw,' + p.max + 'px)';
+            fig.style.setProperty('--reveal-delay', ((i % 4) * 90) + 'ms');
             const img = document.createElement('img');
             img.loading = 'lazy';
             if (it) { img.src = /:\/\//.test(it.src) ? it.src : ('photos/' + it.src); img.alt = it.caption || ''; }
             fig.appendChild(img);
-            bubblesWrap.appendChild(fig);
-        });
-        const bubbleEls = bubblesWrap.querySelectorAll('.bubble');
+            grid.appendChild(fig);
+        }
+        const figs = grid.querySelectorAll('figure');
         if ('IntersectionObserver' in window && !reduceMotion) {
-            const bio = new IntersectionObserver((es) => {
-                es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); bio.unobserve(e.target); } });
-            }, { threshold: 0.35 });
-            bubbleEls.forEach((b) => bio.observe(b));
+            const gio = new IntersectionObserver((es) => {
+                es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); gio.unobserve(e.target); } });
+            }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+            figs.forEach((f) => gio.observe(f));
         } else {
-            bubbleEls.forEach((b) => b.classList.add('in'));
+            figs.forEach((f) => f.classList.add('in'));
         }
     }
 
-    /* Parallax (hero ranges + trail peak) + the trail drawing itself */
-    const parallaxEls = Array.from(document.querySelectorAll('[data-depth]'));
-    const trailmap = document.getElementById('trailmap');
-    const galPath = document.getElementById('galPath');
-    if (!reduceMotion && (parallaxEls.length || trailmap)) {
+    /* Parallax mountain ranges */
+    const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
+    if (ranges.length && !reduceMotion) {
         const frame = () => {
-            const vh = window.innerHeight;
-            for (let i = 0; i < parallaxEls.length; i++) {
-                const el = parallaxEls[i];
-                const r = el.getBoundingClientRect();
-                const fromCenter = (r.top + r.height / 2) - vh / 2;
-                const d = parseFloat(el.dataset.depth) || 0.1;
-                el.style.transform = 'translate3d(0,' + (-fromCenter * d * 0.14).toFixed(1) + 'px,0)';
-            }
-            if (trailmap && galPath) {
-                const r = trailmap.getBoundingClientRect();
-                const p = clamp((vh * 0.82 - r.top) / (r.height * 0.78), 0, 1);
-                galPath.style.strokeDashoffset = (1000 * (1 - p)).toFixed(1);
+            const y = window.scrollY || 0;
+            for (let i = 0; i < ranges.length; i++) {
+                const d = parseFloat(ranges[i].dataset.depth) || 0.1;
+                ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
             requestAnimationFrame(frame);
         };
