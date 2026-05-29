@@ -81,31 +81,38 @@
                 ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
 
-            // pinned gallery scene
+            // pinned gallery scene: descend → lift → pan the photos
             if (album) {
                 const r = album.getBoundingClientRect();
                 const total = album.offsetHeight - vh;
                 const p = clamp(-r.top / total, 0, 1);
-                const pA = clamp(p / 0.5, 0, 1);          // descend the trail
-                const pB = clamp((p - 0.5) / 0.5, 0, 1);  // lift the mountains
+                const pDesc = clamp(p / 0.30, 0, 1);              // descend the trail
+                const pLift = clamp((p - 0.30) / 0.16, 0, 1);     // mountains lift away
+                const pPan  = clamp((p - 0.50) / 0.50, 0, 1);     // pan through the photos
 
                 // trail draws + marker descends
-                if (downPath) downPath.style.strokeDashoffset = (1000 * (1 - pA)).toFixed(1);
+                if (downPath) downPath.style.strokeDashoffset = (1000 * (1 - pDesc)).toFixed(1);
                 if (marker && pathLen) {
-                    const pt = downPath.getPointAtLength(pA * pathLen);
+                    const pt = downPath.getPointAtLength(pDesc * pathLen);
                     marker.style.left = pt.x + '%';
                     marker.style.top = pt.y + '%';
-                    marker.style.opacity = pA > 0.015 ? 1 : 0;
+                    marker.style.opacity = (pDesc > 0.015 && pLift < 0.6) ? 1 : 0;
                 }
 
                 // mountains (and the trail layer) lift away
                 for (let i = 0; i < risers.length; i++) {
                     const rise = parseFloat(risers[i].dataset.rise) || 1;
-                    risers[i].style.transform = 'translate3d(0,' + (-pB * vh * rise).toFixed(1) + 'px,0)';
+                    risers[i].style.transform = 'translate3d(0,' + (-pLift * vh * rise).toFixed(1) + 'px,0)';
                 }
 
-                if (albumHead) albumHead.style.opacity = (1 - clamp(pB / 0.5, 0, 1)).toFixed(3);
-                if (cap) cap.style.opacity = clamp((pB - 0.25) / 0.45, 0, 1).toFixed(3);
+                // pan the (wider-than-viewport) photo row, ~3 visible at a time
+                if (photoRow) {
+                    const maxPan = Math.max(0, photoRow.scrollWidth - window.innerWidth);
+                    photoRow.style.transform = 'translate3d(' + (-maxPan * pPan).toFixed(1) + 'px,0,0)';
+                }
+
+                if (albumHead) albumHead.style.opacity = (1 - clamp(pLift / 0.5, 0, 1)).toFixed(3);
+                if (cap) cap.style.opacity = clamp((pLift - 0.25) / 0.45, 0, 1).toFixed(3);
             }
 
             requestAnimationFrame(frame);
