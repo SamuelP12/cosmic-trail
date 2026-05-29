@@ -102,20 +102,20 @@
                 const r = album.getBoundingClientRect();
                 const total = album.offsetHeight - vh;
                 const p = clamp(-r.top / total, 0, 1);
-                const pLift = clamp(p / 0.60, 0, 1);             // peel the layers, hills → mountains
-                const pPan  = clamp((p - 0.50) / 0.50, 0, 1);    // photos start scrolling as soon as they show
+                const pSink = clamp(p / 0.62, 0, 1);             // layers sink away, hills → mountains
+                const pPan  = clamp((p - 0.52) / 0.48, 0, 1);    // photos scroll as soon as they show
 
-                // each layer lifts in turn (front hills first, far mountains last)
+                // each layer sinks in turn (front hills first, far mountains last)
                 for (let i = 0; i < risers.length; i++) {
                     const delay = parseFloat(risers[i].dataset.delay) || 0;
-                    const local = clamp((pLift - delay) / 0.32, 0, 1);
-                    risers[i].style.transform = 'translate3d(0,' + (-local * vh * 1.12).toFixed(1) + 'px,0)';
+                    const local = clamp((pSink - delay) / 0.34, 0, 1);
+                    risers[i].style.transform = 'translate3d(0,' + (local * vh * 1.25).toFixed(1) + 'px,0)';
                 }
                 if (photoRow) {
                     const maxPan = Math.max(0, photoRow.scrollWidth - window.innerWidth);
                     photoRow.style.transform = 'translate3d(' + (-maxPan * pPan).toFixed(1) + 'px,0,0)';
                 }
-                if (cap) cap.style.opacity = clamp((pLift - 0.6) / 0.2, 0, 1).toFixed(3);
+                if (cap) cap.style.opacity = clamp((pSink - 0.62) / 0.2, 0, 1).toFixed(3);
             }
 
             requestAnimationFrame(frame);

@@ -160,15 +160,15 @@ html.lenis, html.lenis body { height: auto; }
     position: relative; height: 150vh; overflow: hidden;
     background: linear-gradient(180deg, var(--snow) 0%, #dde9f1 100%);
 }
-.album { position: relative; height: 620vh; }
+.album { position: relative; height: 440vh; }
 .album-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #dce8f0 0%, #c2d4e0 55%, #a9c0cd 100%); }
 .album-hint { color: var(--faint); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; margin: 14px 0 0; }
 
 /* the row of photos, in the lower band — hidden behind the mountain body until it lifts.
    3 fit across; the row is wider than the viewport and pans horizontally. */
 .photo-row {
-    position: absolute; left: 0; top: 46vh; bottom: 0; z-index: 1;
-    display: flex; gap: 12px; padding: 0 12px 16px; width: max-content;
+    position: absolute; left: 0; top: 18vh; height: 64vh; z-index: 1;
+    display: flex; gap: 12px; padding: 0 12px; width: max-content;
     will-change: transform;
 }
 .photo-row figure {
@@ -187,19 +187,19 @@ html.lenis, html.lenis body { height: auto; }
    solid bodies cover the lower band where the photos sit. Front ridge's
    lowest valley (~46%) stays above the photo band (top 48vh) so nothing
    peeks through until they lift. */
-.ridge { position: absolute; left: -2%; right: -2%; bottom: 0; height: 100vh; will-change: transform; }
-/* near hills (dark, gentle) in front → far mountains (light, jagged) behind.
-   every layer's lowest valley stays above the photo band (top 48vh). */
+/* Layers cover the photos, then SINK downward — the jagged ridgeline
+   descends past the photos, revealing them top-down (no flat bands). */
+.ridge { position: absolute; left: -2%; right: -2%; bottom: 0; height: 120vh; will-change: transform; }
 .ridge-1 { z-index: 8; background: linear-gradient(180deg,#131d2c,#0b1320);
-    clip-path: polygon(0 100%,0 46%,16% 40%,34% 45%,50% 39%,68% 45%,84% 40%,100% 45%,100% 100%); }
+    clip-path: polygon(0 100%,0 30%,16% 22%,34% 29%,50% 21%,68% 29%,84% 22%,100% 28%,100% 100%); }
 .ridge-2 { z-index: 7; background: linear-gradient(180deg,#1b2740,#121a2c);
-    clip-path: polygon(0 100%,0 45%,20% 35%,40% 45%,62% 34%,82% 45%,100% 37%,100% 100%); }
+    clip-path: polygon(0 100%,0 28%,20% 18%,40% 28%,62% 17%,82% 28%,100% 20%,100% 100%); }
 .ridge-3 { z-index: 6; background: linear-gradient(180deg,#28344e,#1c2740);
-    clip-path: polygon(0 100%,0 44%,12% 28%,26% 45%,40% 27%,54% 45%,68% 27%,82% 45%,100% 30%,100% 100%); }
+    clip-path: polygon(0 100%,0 27%,12% 14%,26% 28%,40% 13%,54% 28%,68% 13%,82% 28%,100% 16%,100% 100%); }
 .ridge-4 { z-index: 5; background: linear-gradient(180deg,#3c4a66,#2c3a52);
-    clip-path: polygon(0 100%,0 44%,14% 22%,30% 44%,46% 21%,62% 44%,78% 22%,100% 40%,100% 100%); }
+    clip-path: polygon(0 100%,0 26%,14% 10%,30% 26%,46% 9%,62% 26%,78% 10%,100% 24%,100% 100%); }
 .ridge-5 { z-index: 4; background: linear-gradient(180deg,#5a6f8c,#46597b);
-    clip-path: polygon(0 100%,0 42%,16% 14%,34% 40%,50% 13%,66% 40%,82% 14%,100% 38%,100% 100%); }
+    clip-path: polygon(0 100%,0 24%,16% 5%,34% 22%,50% 4%,66% 22%,82% 5%,100% 22%,100% 100%); }
 
 /* the trail line + the marker that descends it (within .trail-intro) */
 .trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
