@@ -1,28 +1,27 @@
-# Cosmic Trail
+# Troop [000] — Field Guide
 
-A scout troop website — a scroll journey from deep space down to the summit.
+A bright, outdoor scout-troop site (topographic field-guide look).
 Plain HTML/CSS/JS, no build step. Deployed via GitHub Pages.
 
-## Structure
-- `index.html` — the page (placeholder text in `[ brackets ]`, replace later)
-- `css/styles.css` — cosmic theme, parallax, mountains, reveal animations
-- `js/main.js` — starfield, scroll-driven warp + parallax, self-drawing trail, photo reel
+Signature moment: in **The Album** section, the ridgeline of mountains
+lifts away as you scroll to reveal a wall of trail photos behind it.
+
+## Files
+- `index.html` — the page (placeholder text in `[ brackets ]`)
+- `css/styles.css` — field-guide theme, topo lines, the ridge-reveal
+- `js/main.js` — smooth scroll, hero parallax, the ridge-lift reveal, photo wall
 - `js/photos.js` — the album manifest (swap in real photos here)
 - `photos/` — drop troop photos here
 
 ## Adding album photos
-Edit `js/photos.js`. For a local file, use just the filename (it loads from `photos/`);
-or paste a full URL. Captions are optional:
+Edit `js/photos.js`. Local filename loads from `photos/`; full URLs work too:
 
 ```js
 window.GALLERY = [
   { src: 'philmont-2025.jpg', caption: 'Philmont, 2025' },
-  { src: 'https://…/photo.jpg', caption: 'Summit day' },
 ];
 ```
-
-The current entries are stock placeholders.
+The wall shows 12 tiles (4×3) and cycles the list if there are fewer.
 
 ## Local preview
-Open `index.html` in a browser, or run a tiny server:
-`python3 -m http.server` then visit http://localhost:8000
+Open `index.html`, or run `python3 -m http.server` and visit http://localhost:8000
