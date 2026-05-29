@@ -66,7 +66,7 @@
     const album = document.getElementById('album');
     const downPath = document.getElementById('downPath');
     const marker = document.getElementById('trailMarker');
-    const risers = Array.from(document.querySelectorAll('[data-rise]'));
+    const risers = Array.from(document.querySelectorAll('.ridge'));
     const cap = document.querySelector('.reveal-cap');
     const albumHead = document.getElementById('albumHead');
     const pathLen = downPath ? downPath.getTotalLength() : 0;
@@ -102,18 +102,20 @@
                 const r = album.getBoundingClientRect();
                 const total = album.offsetHeight - vh;
                 const p = clamp(-r.top / total, 0, 1);
-                const pLift = clamp(p / 0.34, 0, 1);             // mountains lift away
-                const pPan  = clamp((p - 0.40) / 0.60, 0, 1);    // pan through the photos
+                const pLift = clamp(p / 0.62, 0, 1);             // peel the layers, hills → mountains
+                const pPan  = clamp((p - 0.66) / 0.34, 0, 1);    // then pan through the photos
 
+                // each layer lifts in turn (front hills first, far mountains last)
                 for (let i = 0; i < risers.length; i++) {
-                    const rise = parseFloat(risers[i].dataset.rise) || 1;
-                    risers[i].style.transform = 'translate3d(0,' + (-pLift * vh * rise).toFixed(1) + 'px,0)';
+                    const delay = parseFloat(risers[i].dataset.delay) || 0;
+                    const local = clamp((pLift - delay) / 0.5, 0, 1);
+                    risers[i].style.transform = 'translate3d(0,' + (-local * vh * 1.12).toFixed(1) + 'px,0)';
                 }
                 if (photoRow) {
                     const maxPan = Math.max(0, photoRow.scrollWidth - window.innerWidth);
                     photoRow.style.transform = 'translate3d(' + (-maxPan * pPan).toFixed(1) + 'px,0,0)';
                 }
-                if (cap) cap.style.opacity = clamp((pLift - 0.3) / 0.4, 0, 1).toFixed(3);
+                if (cap) cap.style.opacity = clamp((pLift - 0.82) / 0.16, 0, 1).toFixed(3);
             }
 
             requestAnimationFrame(frame);

@@ -15,16 +15,9 @@
    ===================================================== */
 
 window.GALLERY = [
-    { src: 'https://picsum.photos/seed/troopalbum1/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum2/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum3/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum4/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum5/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum6/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum7/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum8/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum9/800/800',  caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum10/800/800', caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum11/800/800', caption: '[ Caption ]' },
-    { src: 'https://picsum.photos/seed/troopalbum12/800/800', caption: '[ Caption ]' }
+    { src: 'https://picsum.photos/seed/troopalbum1/800/800', caption: '[ Caption ]' },
+    { src: 'https://picsum.photos/seed/troopalbum2/800/800', caption: '[ Caption ]' },
+    { src: 'https://picsum.photos/seed/troopalbum3/800/800', caption: '[ Caption ]' },
+    { src: 'https://picsum.photos/seed/troopalbum4/800/800', caption: '[ Caption ]' },
+    { src: 'https://picsum.photos/seed/troopalbum5/800/800', caption: '[ Caption ]' }
 ];
