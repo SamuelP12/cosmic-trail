@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05060f">
+    <title>Cosmic Trail — Scout Troop</title>
+    <meta name="description" content="A scout troop site — a journey from the stars to the summit.">
+
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="css/styles.css?v=1">
+</head>
+<body>
+
+    <!-- Fixed deep-space backdrop: animated starfield + drifting nebulae -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div class="nebula-field" aria-hidden="true">
+        <div class="nebula nebula-a"></div>
+        <div class="nebula nebula-b"></div>
+        <div class="nebula nebula-c"></div>
+    </div>
+
+    <!-- Scroll progress: a comet climbing the right edge -->
+    <div class="progress-rail" aria-hidden="true">
+        <div class="progress-comet" id="comet"></div>
+    </div>
+
+    <!-- Nav -->
+    <header class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#top" class="brand">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <span class="brand-text">Troop&nbsp;<em>[000]</em></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#mission">Mission</a>
+                <a href="#trail">The Trail</a>
+                <a href="#reel">Album</a>
+                <a href="#adventures">Adventures</a>
+            </nav>
+            <a href="#join" class="nav-cta">Join us</a>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- ============ HERO : DEEP SPACE ============ -->
+        <section class="hero" id="hero">
+            <div class="orb orb-hero" data-depth="0.18" aria-hidden="true"></div>
+            <div class="hero-inner">
+                <p class="eyebrow reveal">★ Est. [year] · [Council / Town]</p>
+                <h1 class="hero-title reveal">
+                    From the <em>stars</em><br/>
+                    to the <span class="summit">summit</span>.
+                </h1>
+                <p class="hero-sub reveal">[ One or two lines about the troop go here — who you are and what the adventure is. Replace this later. ]</p>
+                <div class="hero-actions reveal">
+                    <a href="#join" class="btn btn-primary">Start the journey</a>
+                    <a href="#mission" class="btn btn-ghost">Learn more</a>
+                </div>
+            </div>
+            <a href="#mission" class="scroll-cue reveal" aria-label="Scroll down">
+                <span class="scroll-cue-dot"></span>
+                <span class="scroll-cue-text">Scroll to launch</span>
+            </a>
+        </section>
+
+        <!-- ============ MISSION : DRIFTING THROUGH SPACE ============ -->
+        <section class="chapter" id="mission">
+            <div class="orb orb-planet" data-depth="0.32" aria-hidden="true">
+                <span class="ring" aria-hidden="true"></span>
+            </div>
+            <div class="chapter-inner">
+                <p class="kicker reveal">Our Mission</p>
+                <h2 class="chapter-title reveal">[ A bold headline about the troop's purpose ]</h2>
+                <p class="lede reveal">[ A short paragraph of placeholder text. Talk about adventure, character, the outdoors, leadership — whatever this troop is about. You'll swap this out later; for now it just holds the space and shows the motion. ]</p>
+                <p class="lede reveal">[ A second supporting line, optional. ]</p>
+            </div>
+        </section>
+
+        <!-- ============ FACTS : CONSTELLATION OF STATS ============ -->
+        <section class="facts" id="facts">
+            <div class="facts-grid">
+                <article class="fact reveal">
+                    <p class="fact-num" data-count="000">000</p>
+                    <p class="fact-label">[ Scouts ]</p>
+                </article>
+                <article class="fact reveal">
+                    <p class="fact-num" data-count="00">00</p>
+                    <p class="fact-label">[ Trips a year ]</p>
+                </article>
+                <article class="fact reveal">
+                    <p class="fact-num" data-count="000">000</p>
+                    <p class="fact-label">[ Miles hiked ]</p>
+                </article>
+                <article class="fact reveal">
+                    <p class="fact-num" data-count="00">00</p>
+                    <p class="fact-label">[ Eagle Scouts ]</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- ============ TRAIL : DESCENT TO THE MOUNTAINS ============ -->
+        <section class="trail" id="trail">
+            <!-- Parallax mountain ranges -->
+            <div class="range range-far"  data-depth="0.10" aria-hidden="true"></div>
+            <div class="range range-mid"  data-depth="0.22" aria-hidden="true"></div>
+            <div class="range range-near" data-depth="0.40" aria-hidden="true"></div>
+
+            <!-- Winding trail that draws itself as you scroll -->
+            <svg class="trail-path" viewBox="0 0 400 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <path id="trailLine"
+                      d="M200,0 C140,120 260,200 200,320 C150,420 300,500 220,620 C150,720 260,820 200,1000"
+                      fill="none" stroke="url(#trailGrad)" stroke-width="3"
+                      stroke-linecap="round" stroke-dasharray="0 1"/>
+                <defs>
+                    <linearGradient id="trailGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%"  stop-color="#8b6cff"/>
+                        <stop offset="55%" stop-color="#4be3c0"/>
+                        <stop offset="100%" stop-color="#f5b942"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <div class="trail-inner">
+                <p class="kicker reveal">The Trail</p>
+                <h2 class="chapter-title reveal">[ Where the sky ends, the climb begins ]</h2>
+                <p class="lede reveal">[ Placeholder copy about getting outside — backpacking, summits, campfires. The trail line to the left draws as you scroll. ]</p>
+            </div>
+        </section>
+
+        <!-- ============ PHOTO REEL : THE ALBUM ============ -->
+        <section class="reel" id="reel">
+            <div class="reel-head">
+                <p class="kicker reveal">From the Album</p>
+                <h2 class="chapter-title reveal">[ Moments on the trail ]</h2>
+                <p class="reel-hint reveal">Drag to explore →</p>
+            </div>
+            <!-- Track is populated from js/photos.js -->
+            <div class="reel-viewport" id="reelViewport">
+                <div class="reel-track" id="reelTrack"></div>
+            </div>
+        </section>
+
+        <!-- ============ ADVENTURES : TIMELINE ============ -->
+        <section class="chapter chapter-narrow" id="adventures">
+            <div class="chapter-inner">
+                <p class="kicker reveal">Adventures</p>
+                <h2 class="chapter-title reveal">[ Recent &amp; upcoming ]</h2>
+                <ol class="timeline">
+                    <li class="t-item reveal">
+                        <span class="t-dot" aria-hidden="true"></span>
+                        <p class="t-when">[ Month ’00 ]</p>
+                        <p class="t-what">[ Trip or event name — short description placeholder. ]</p>
+                    </li>
+                    <li class="t-item reveal">
+                        <span class="t-dot" aria-hidden="true"></span>
+                        <p class="t-when">[ Month ’00 ]</p>
+                        <p class="t-what">[ Trip or event name — short description placeholder. ]</p>
+                    </li>
+                    <li class="t-item reveal">
+                        <span class="t-dot" aria-hidden="true"></span>
+                        <p class="t-when">[ Month ’00 ]</p>
+                        <p class="t-what">[ Trip or event name — short description placeholder. ]</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============ JOIN : CTA ============ -->
+        <section class="join" id="join">
+            <div class="join-inner reveal">
+                <h2 class="join-title">[ Ready to explore? ]</h2>
+                <p class="lede">[ A short invitation. Who can join, when you meet, how to reach out. ]</p>
+                <div class="hero-actions">
+                    <a href="mailto:[email]" class="btn btn-primary">Get in touch</a>
+                    <a href="#top" class="btn btn-ghost">Back to the top ↑</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p class="footer-brand"><span class="brand-mark" aria-hidden="true"></span> Troop [000]</p>
+        <p class="footer-meta">[ Council · Town, ST ] · © <span id="year"></span></p>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="js/photos.js?v=1"></script>
+    <script src="js/main.js?v=1"></script>
+</body>
+</html>
