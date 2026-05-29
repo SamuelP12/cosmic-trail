@@ -3,25 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#05060f">
+    <meta name="theme-color" content="#060a16">
     <title>Cosmic Trail — Scout Troop</title>
     <meta name="description" content="A scout troop site — a journey from the stars to the summit.">
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="css/styles.css?v=1">
+    <link rel="stylesheet" href="css/styles.css?v=2">
 </head>
 <body>
 
-    <!-- Fixed deep-space backdrop: animated starfield + drifting nebulae -->
+    <!-- Fixed night-sky backdrop: starfield that fades into dawn as you descend -->
     <canvas id="starfield" aria-hidden="true"></canvas>
-    <div class="nebula-field" aria-hidden="true">
-        <div class="nebula nebula-a"></div>
-        <div class="nebula nebula-b"></div>
-        <div class="nebula nebula-c"></div>
-    </div>
 
-    <!-- Scroll progress: a comet climbing the right edge -->
+    <!-- Scroll progress: a marker climbing the right edge -->
     <div class="progress-rail" aria-hidden="true">
         <div class="progress-comet" id="comet"></div>
     </div>
@@ -47,7 +42,7 @@
 
         <!-- ============ HERO : DEEP SPACE ============ -->
         <section class="hero" id="hero">
-            <div class="orb orb-hero" data-depth="0.18" aria-hidden="true"></div>
+            <div class="orb orb-moon" data-depth="0.18" aria-hidden="true"></div>
             <div class="hero-inner">
                 <p class="eyebrow reveal">★ Est. [year] · [Council / Town]</p>
                 <h1 class="hero-title reveal">
@@ -68,9 +63,6 @@
 
         <!-- ============ MISSION : DRIFTING THROUGH SPACE ============ -->
         <section class="chapter" id="mission">
-            <div class="orb orb-planet" data-depth="0.32" aria-hidden="true">
-                <span class="ring" aria-hidden="true"></span>
-            </div>
             <div class="chapter-inner">
                 <p class="kicker reveal">Our Mission</p>
                 <h2 class="chapter-title reveal">[ A bold headline about the troop's purpose ]</h2>
@@ -103,6 +95,8 @@
 
         <!-- ============ TRAIL : DESCENT TO THE MOUNTAINS ============ -->
         <section class="trail" id="trail">
+            <!-- Sunrise glow rising behind the peaks -->
+            <div class="orb orb-sun" data-depth="0.12" aria-hidden="true"></div>
             <!-- Parallax mountain ranges -->
             <div class="range range-far"  data-depth="0.10" aria-hidden="true"></div>
             <div class="range range-mid"  data-depth="0.22" aria-hidden="true"></div>
@@ -116,7 +110,7 @@
                       stroke-linecap="round" stroke-dasharray="0 1"/>
                 <defs>
                     <linearGradient id="trailGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%"  stop-color="#8b6cff"/>
+                        <stop offset="0%"  stop-color="#7fc8a0"/>
                         <stop offset="55%" stop-color="#4be3c0"/>
                         <stop offset="100%" stop-color="#f5b942"/>
                     </linearGradient>
@@ -189,6 +183,6 @@
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="js/photos.js?v=1"></script>
-    <script src="js/main.js?v=1"></script>
+    <script src="js/main.js?v=2"></script>
 </body>
 </html>

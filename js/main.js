@@ -70,9 +70,14 @@
         smoothVel = smoothVel * 0.82 + vel * 0.18;
         const time = t * 0.001;
 
-        /* Starfield */
+        /* Starfield — fades out as the sky brightens toward dawn */
         if (ctx) {
             ctx.clearRect(0, 0, W, H);
+            const docMax = document.documentElement.scrollHeight - H;
+            const prog = docMax > 0 ? y / docMax : 0;
+            const skyFade = clamp(1 - prog / 0.46, 0, 1);   // stars gone by ~46% down
+            if (skyFade <= 0.01) { /* daytime: no stars */ }
+            else {
             const warp = clamp(Math.abs(smoothVel), 0, 90);
             const dir = smoothVel >= 0 ? 1 : -1;
             for (let i = 0; i < stars.length; i++) {
@@ -80,7 +85,7 @@
                 const off = (y * s.z * 0.45) % H;
                 let yy = s.y - off; yy = ((yy % H) + H) % H;
                 const twinkle = 0.55 + 0.45 * Math.sin(time * 1.5 + s.tw);
-                const alpha = (0.25 + s.z * 0.6) * twinkle;
+                const alpha = (0.25 + s.z * 0.6) * twinkle * skyFade;
                 const streak = warp * s.z * 0.5;
                 ctx.beginPath();
                 if (streak > 1.5) {
@@ -94,6 +99,7 @@
                     ctx.arc(s.x, yy, s.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
+            }
             }
         }
 

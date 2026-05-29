@@ -6,18 +6,20 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
-    --void:   #05060f;   /* near-black space */
-    --deep:   #0a0e23;   /* deep indigo */
-    --earth:  #07120e;   /* dark pine, the ground */
-    --ink:    #eef1ff;
-    --muted:  rgba(238,241,255,0.64);
-    --faint:  rgba(238,241,255,0.42);
-    --line:   rgba(238,241,255,0.12);
+    --night:  #060a16;   /* night sky at the very top */
+    --earth:  #0a160f;   /* forest floor, the ground */
+    --ink:    #f1f5ee;
+    --muted:  rgba(241,245,238,0.66);
+    --faint:  rgba(241,245,238,0.44);
+    --line:   rgba(241,245,238,0.13);
 
-    --purple: #8b6cff;
-    --blue:   #4d7cfe;
-    --teal:   #4be3c0;
-    --gold:   #f5b942;
+    --pine:   #2f6b4f;   /* deep forest green */
+    --sage:   #7fc8a0;   /* lit green */
+    --teal:   #4be3c0;   /* trail accent */
+    --sky:    #6fa8d6;   /* daytime sky */
+    --amber:  #f5a64b;   /* sunrise */
+    --gold:   #f5b942;   /* warm light */
+    --ember:  #e2724a;   /* horizon glow */
 
     --max: 1200px;
     --pad: clamp(20px, 5vw, 80px);
@@ -30,7 +32,20 @@ html, body { margin: 0; padding: 0; }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--void);
+    /* The sky as you scroll: night → predawn → sunrise → dusk → forest */
+    background:
+        linear-gradient(180deg,
+            #05070e 0%,
+            #0a1024 13%,
+            #161a3a 26%,
+            #2b2348 38%,
+            #4a2c47 48%,
+            #6b3b3f 56%,
+            #3c3a52 65%,
+            #1f3a3c 77%,
+            #163027 87%,
+            #0a160f 100%);
+    background-attachment: scroll;
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -63,32 +78,7 @@ html.lenis, html.lenis body { height: auto; }
     pointer-events: none;
 }
 
-.nebula-field { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
-.nebula {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.42;
-    will-change: transform;
-}
-.nebula-a {
-    width: 60vw; height: 60vw; top: -12vw; left: -10vw;
-    background: radial-gradient(circle, rgba(139,108,255,0.55), transparent 62%);
-    animation: drift-a 38s ease-in-out infinite;
-}
-.nebula-b {
-    width: 52vw; height: 52vw; top: 28vh; right: -16vw;
-    background: radial-gradient(circle, rgba(77,124,254,0.45), transparent 62%);
-    animation: drift-b 46s ease-in-out infinite;
-}
-.nebula-c {
-    width: 46vw; height: 46vw; top: 64vh; left: 8vw;
-    background: radial-gradient(circle, rgba(75,227,192,0.30), transparent 64%);
-    animation: drift-c 52s ease-in-out infinite;
-}
-@keyframes drift-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6vw, 4vh) scale(1.08); } }
-@keyframes drift-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5vw, 6vh) scale(1.12); } }
-@keyframes drift-c { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4vw, -5vh) scale(1.06); } }
+/* (no nebulae — the sky comes from the body gradient + starfield) */
 
 /* =====================================================
    Scroll progress comet
@@ -159,11 +149,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 .btn:hover { transform: translateY(-2px); }
 .btn-primary {
-    background: linear-gradient(120deg, var(--purple), var(--teal));
-    color: #0a0a14;
-    box-shadow: 0 8px 30px -8px rgba(139,108,255,0.7);
+    background: linear-gradient(120deg, var(--amber), var(--sage));
+    color: #102015;
+    box-shadow: 0 8px 30px -8px rgba(245,166,75,0.6);
 }
-.btn-primary:hover { box-shadow: 0 14px 40px -8px rgba(75,227,192,0.7); }
+.btn-primary:hover { box-shadow: 0 14px 40px -8px rgba(127,200,160,0.6); }
 .btn-ghost { background: rgba(255,255,255,0.04); color: var(--ink); border-color: var(--line); }
 .btn-ghost:hover { background: rgba(255,255,255,0.09); }
 
@@ -196,8 +186,8 @@ html.lenis, html.lenis body { height: auto; }
 .brand em { font-style: normal; color: var(--gold); }
 .brand-mark {
     width: 14px; height: 14px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, var(--teal), var(--purple));
-    box-shadow: 0 0 12px rgba(139,108,255,0.8);
+    background: radial-gradient(circle at 30% 30%, var(--sage), var(--pine));
+    box-shadow: 0 0 12px rgba(75,227,192,0.6);
 }
 .nav-links { display: flex; gap: 28px; }
 .nav-links a { font-size: 14px; color: var(--muted); transition: color 0.3s; }
@@ -212,32 +202,38 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 760px) { .nav-links { display: none; } }
 
 /* =====================================================
-   Floating celestial orbs (parallax)
+   Celestial objects (parallax): moon + rising sun
    ===================================================== */
 .orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
-.orb-hero {
-    width: clamp(220px, 30vw, 460px); aspect-ratio: 1;
-    top: 8vh; right: -6vw;
+.orb-moon {
+    width: clamp(140px, 18vw, 280px); aspect-ratio: 1;
+    top: 10vh; right: 6vw;
     background:
-        radial-gradient(circle at 32% 30%, rgba(255,255,255,0.35), transparent 18%),
-        radial-gradient(circle at 35% 35%, var(--blue), #1a1d52 60%, #0a0c2a 100%);
-    box-shadow: inset -28px -22px 60px rgba(0,0,0,0.65), 0 0 80px rgba(77,124,254,0.35);
-    opacity: 0.9;
+        radial-gradient(circle at 36% 34%, #ffffff, #e7ecf3 30%, #c2cad6 70%, #9aa6b5 100%);
+    box-shadow:
+        inset -22px -18px 44px rgba(60,70,90,0.55),
+        0 0 70px rgba(220,232,255,0.45);
+    opacity: 0.92;
 }
-.orb-planet {
-    width: clamp(180px, 26vw, 380px); aspect-ratio: 1;
-    top: 6vh; left: -7vw;
-    background:
-        radial-gradient(circle at 34% 30%, rgba(255,255,255,0.3), transparent 16%),
-        radial-gradient(circle at 38% 36%, var(--purple), #3a2170 58%, #190f33 100%);
-    box-shadow: inset -26px -20px 56px rgba(0,0,0,0.7), 0 0 90px rgba(139,108,255,0.4);
+/* faint craters */
+.orb-moon::before, .orb-moon::after {
+    content: ''; position: absolute; border-radius: 50%;
+    background: rgba(120,132,150,0.28); box-shadow: inset 2px 2px 4px rgba(80,90,110,0.4);
 }
-.orb-planet .ring {
-    position: absolute; inset: -28% -42%;
-    border-radius: 50%;
-    border: 10px solid rgba(245,185,66,0.35);
-    transform: rotate(-24deg);
-    box-shadow: 0 0 30px rgba(245,185,66,0.2);
+.orb-moon::before { width: 18%; height: 18%; top: 28%; left: 30%; }
+.orb-moon::after  { width: 12%; height: 12%; top: 58%; left: 56%; }
+
+.orb-sun {
+    width: clamp(260px, 40vw, 560px); aspect-ratio: 1;
+    left: 50%; bottom: 8vh; margin-left: -20vw;
+    background: radial-gradient(circle,
+        rgba(255,236,179,0.95) 0%,
+        rgba(245,166,75,0.85) 30%,
+        rgba(226,114,74,0.35) 55%,
+        transparent 72%);
+    filter: blur(2px);
+    box-shadow: 0 0 120px 40px rgba(245,166,75,0.35);
+    z-index: 0;
 }
 
 /* =====================================================
@@ -267,7 +263,7 @@ section { position: relative; }
 }
 .hero-title em {
     font-style: italic; font-weight: 500;
-    background: linear-gradient(120deg, var(--blue), var(--purple));
+    background: linear-gradient(120deg, #d6e6ff, #9fc0e6);
     -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .hero-title .summit {
@@ -313,7 +309,7 @@ section { position: relative; }
 .fact-num {
     font-size: clamp(40px, 5vw, 64px); font-weight: 600; letter-spacing: -0.04em;
     margin: 0; line-height: 1;
-    background: linear-gradient(120deg, var(--teal), var(--purple));
+    background: linear-gradient(120deg, var(--sage), var(--gold));
     -webkit-background-clip: text; background-clip: text; color: transparent;
     font-feature-settings: 'tnum' 1;
 }
@@ -326,24 +322,25 @@ section { position: relative; }
 .trail {
     min-height: 170vh;
     padding-top: clamp(96px, 18vh, 220px);
-    background: linear-gradient(180deg, transparent 0%, rgba(7,18,14,0.35) 42%, var(--earth) 96%);
+    background: linear-gradient(180deg, transparent 0%, transparent 34%, rgba(10,22,15,0.45) 72%, var(--earth) 100%);
     overflow: hidden;
 }
 .range { position: absolute; left: -5%; right: -5%; bottom: 0; pointer-events: none; }
+/* atmospheric perspective: far peaks hazy & bluish, near peaks deep pine */
 .range-far {
     height: 48vh;
-    background: linear-gradient(180deg, #2c2657, #1a1838);
-    opacity: 0.75;
+    background: linear-gradient(180deg, #7a7fa6, #4d5680);
+    opacity: 0.68;
     clip-path: polygon(0% 100%, 0% 56%, 12% 70%, 22% 40%, 33% 62%, 45% 30%, 56% 58%, 68% 38%, 80% 64%, 90% 45%, 100% 60%, 100% 100%);
 }
 .range-mid {
     height: 40vh;
-    background: linear-gradient(180deg, #1b2742, #0f1830);
+    background: linear-gradient(180deg, #3c5560, #243a3c);
     clip-path: polygon(0% 100%, 0% 70%, 10% 55%, 20% 75%, 30% 48%, 42% 72%, 52% 52%, 63% 78%, 74% 55%, 85% 80%, 95% 60%, 100% 78%, 100% 100%);
 }
 .range-near {
     height: 32vh;
-    background: linear-gradient(180deg, #0d1713, #050f0a);
+    background: linear-gradient(180deg, #1d3d2b, #0a1c12);
     clip-path: polygon(0% 100%, 0% 82%, 14% 66%, 26% 86%, 38% 64%, 50% 88%, 62% 66%, 75% 90%, 88% 70%, 100% 86%, 100% 100%);
 }
 .trail-path {
