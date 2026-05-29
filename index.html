@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="css/styles.css?v=10">
+    <link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
 
@@ -95,35 +95,33 @@
             </div>
         </section>
 
-        <!-- ============ GALLERY : descend the trail, then the mountains lift ============ -->
-        <section class="album" id="gallery">
-            <div class="album-pin">
-                <!-- the photos, hidden behind the mountains until they lift -->
-                <div class="photo-row" id="photoRow"></div>
-                <div class="reveal-haze" aria-hidden="true"></div>
-                <div class="reveal-cap"><p class="kicker on-dark">Where we've been</p><h2 class="h2 on-dark">The Album</h2></div>
+        <!-- ============ GALLERY : the trail leads down to the mountains, which lift ============ -->
+        <section class="gallery-wrap" id="gallery">
 
-                <!-- mountains (lift away in the second half) -->
-                <div class="ridge ridge-3" data-rise="0.86" aria-hidden="true"></div>
-                <div class="ridge ridge-2" data-rise="1.10" aria-hidden="true"></div>
-                <div class="ridge ridge-1" data-rise="1.34" aria-hidden="true"></div>
-
-                <!-- the trail down the mountainside: draws + a marker descends -->
-                <div class="trail-layer" data-rise="1.22">
-                    <svg class="trail-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                        <path id="downPath" pathLength="1000" vector-effect="non-scaling-stroke"
-                              d="M50,3 C28,18 72,33 50,49 S24,73 50,88 50,98"
-                              fill="none" stroke-width="3" stroke-linecap="round"
-                              stroke-dasharray="1000" stroke-dashoffset="1000"/>
-                    </svg>
-                    <span class="trail-marker" id="trailMarker" aria-hidden="true"></span>
-                </div>
-
-                <!-- heading shown while you descend, fades as the peaks lift -->
+            <!-- 1) follow the trail down — it leads to the mountains -->
+            <div class="trail-intro" id="trailIntro">
                 <div class="album-head" id="albumHead">
                     <p class="kicker">Gallery</p>
                     <h2 class="h2">[ On the mountain ]</h2>
                     <p class="album-hint">Follow the trail down ↓</p>
+                </div>
+                <svg class="trail-svg" viewBox="0 0 100 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <path id="downPath"
+                          d="M50,8 C30,52 72,92 50,142 S22,212 50,262 S72,332 50,374"
+                          fill="none" stroke-linecap="round"/>
+                    <circle id="trailMarker" r="5"/>
+                </svg>
+            </div>
+
+            <!-- 2) the mountains cover the photos, then lift; the row pans 3-at-a-time -->
+            <div class="album" id="album">
+                <div class="album-pin">
+                    <div class="photo-row" id="photoRow"></div>
+                    <div class="reveal-haze" aria-hidden="true"></div>
+                    <div class="reveal-cap"><p class="kicker on-dark">Where we've been</p><h2 class="h2 on-dark">The Album</h2></div>
+                    <div class="ridge ridge-3" data-rise="0.86" aria-hidden="true"></div>
+                    <div class="ridge ridge-2" data-rise="1.10" aria-hidden="true"></div>
+                    <div class="ridge ridge-1" data-rise="1.34" aria-hidden="true"></div>
                 </div>
             </div>
         </section>
@@ -180,6 +178,6 @@
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="js/photos.js?v=3"></script>
-    <script src="js/main.js?v=10"></script>
+    <script src="js/main.js?v=11"></script>
 </body>
 </html>

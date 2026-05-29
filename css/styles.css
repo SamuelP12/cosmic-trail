@@ -154,8 +154,13 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
 
-/* Gallery — one pinned scene: descend the trail, mountains lift, then pan the photos 3-at-a-time */
-.album { position: relative; height: 540vh; }
+/* Gallery — follow the trail down to the mountains, which lift and then pan the photos 3-at-a-time */
+.gallery-wrap { position: relative; }
+.trail-intro {
+    position: relative; height: 120vh; overflow: hidden;
+    background: linear-gradient(180deg, var(--snow) 0%, #dde9f1 100%);
+}
+.album { position: relative; height: 460vh; }
 .album-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #dce8f0 0%, #c2d4e0 55%, #a9c0cd 100%); }
 .album-hint { color: var(--faint); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; margin: 14px 0 0; }
 
@@ -190,18 +195,13 @@ html.lenis, html.lenis body { height: auto; }
 .ridge-1 { z-index: 6; background: linear-gradient(180deg,#141d2c,#0c1320);
     clip-path: polygon(0 100%,0 46%,12% 30%,26% 46%,40% 26%,52% 44%,64% 28%,78% 46%,90% 30%,100% 42%,100% 100%); }
 
-/* the trail drawn down the mountainside + the marker that descends it */
-.trail-layer { position: absolute; inset: 0; z-index: 7; will-change: transform; pointer-events: none; }
-.trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-#downPath { stroke: var(--alpen); filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4)); }
-.trail-marker {
-    position: absolute; left: 50%; top: 3%; width: 18px; height: 18px; margin: -9px 0 0 -9px;
-    border-radius: 50%; background: var(--alpen); opacity: 0;
-    box-shadow: 0 0 0 6px rgba(226,119,63,0.25), 0 4px 12px rgba(0,0,0,0.4);
-}
+/* the trail line + the marker that descends it (within .trail-intro) */
+.trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#downPath { stroke: var(--alpen); stroke-width: 1.6; fill: none; opacity: 0.9; }
+#trailMarker { fill: var(--alpen); stroke: #fff; stroke-width: 1.4; opacity: 0; filter: drop-shadow(0 1px 2px rgba(22,32,43,0.35)); }
 
-/* heading while descending, fades as the peaks lift */
-.album-head { position: absolute; z-index: 8; left: 0; right: 0; top: 16%; text-align: center; padding: 0 var(--pad); will-change: opacity; }
+/* heading at the top of the trail, fades as you descend toward the peaks */
+.album-head { position: absolute; z-index: 2; left: 0; right: 0; top: 12%; text-align: center; padding: 0 var(--pad); will-change: opacity; }
 .album-head .kicker { display: block; }
 @media (max-width: 720px) { .photo-row { gap: 4px; } }
 

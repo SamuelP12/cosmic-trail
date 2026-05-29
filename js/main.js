@@ -59,16 +59,18 @@
 
     /* Scroll-driven motion:
        - hero ranges parallax
-       - gallery: one pinned scene — descend the trail (first half),
-         then the mountains lift to reveal the photo row (second half) */
+       - trail intro: the trail draws + a marker descends, leading to the mountains
+       - album (pinned): the mountains lift, then the photo row pans 3-at-a-time */
     const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
-    const album = document.getElementById('gallery');
+    const trailIntro = document.getElementById('trailIntro');
+    const album = document.getElementById('album');
     const downPath = document.getElementById('downPath');
     const marker = document.getElementById('trailMarker');
     const risers = Array.from(document.querySelectorAll('[data-rise]'));
     const cap = document.querySelector('.reveal-cap');
     const albumHead = document.getElementById('albumHead');
     const pathLen = downPath ? downPath.getTotalLength() : 0;
+    if (downPath) { downPath.style.strokeDasharray = pathLen; downPath.style.strokeDashoffset = pathLen; }
 
     if (!reduceMotion) {
         const frame = () => {
@@ -81,38 +83,37 @@
                 ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
 
-            // pinned gallery scene: descend → lift → pan the photos
+            // the trail leads down toward the mountains
+            if (trailIntro && downPath) {
+                const r = trailIntro.getBoundingClientRect();
+                const tp = clamp((vh * 0.6 - r.top) / (r.height * 0.7), 0, 1);
+                downPath.style.strokeDashoffset = (pathLen * (1 - tp)).toFixed(1);
+                if (marker && pathLen) {
+                    const pt = downPath.getPointAtLength(tp * pathLen);
+                    marker.setAttribute('cx', pt.x.toFixed(2));
+                    marker.setAttribute('cy', pt.y.toFixed(2));
+                    marker.style.opacity = (tp > 0.02 && tp < 0.985) ? 1 : 0;
+                }
+                if (albumHead) albumHead.style.opacity = (1 - clamp((tp - 0.5) / 0.4, 0, 1)).toFixed(3);
+            }
+
+            // the mountains lift, then the photo row pans
             if (album) {
                 const r = album.getBoundingClientRect();
                 const total = album.offsetHeight - vh;
                 const p = clamp(-r.top / total, 0, 1);
-                const pDesc = clamp(p / 0.30, 0, 1);              // descend the trail
-                const pLift = clamp((p - 0.30) / 0.16, 0, 1);     // mountains lift away
-                const pPan  = clamp((p - 0.50) / 0.50, 0, 1);     // pan through the photos
+                const pLift = clamp(p / 0.34, 0, 1);             // mountains lift away
+                const pPan  = clamp((p - 0.40) / 0.60, 0, 1);    // pan through the photos
 
-                // trail draws + marker descends
-                if (downPath) downPath.style.strokeDashoffset = (1000 * (1 - pDesc)).toFixed(1);
-                if (marker && pathLen) {
-                    const pt = downPath.getPointAtLength(pDesc * pathLen);
-                    marker.style.left = pt.x + '%';
-                    marker.style.top = pt.y + '%';
-                    marker.style.opacity = (pDesc > 0.015 && pLift < 0.6) ? 1 : 0;
-                }
-
-                // mountains (and the trail layer) lift away
                 for (let i = 0; i < risers.length; i++) {
                     const rise = parseFloat(risers[i].dataset.rise) || 1;
                     risers[i].style.transform = 'translate3d(0,' + (-pLift * vh * rise).toFixed(1) + 'px,0)';
                 }
-
-                // pan the (wider-than-viewport) photo row, ~3 visible at a time
                 if (photoRow) {
                     const maxPan = Math.max(0, photoRow.scrollWidth - window.innerWidth);
                     photoRow.style.transform = 'translate3d(' + (-maxPan * pPan).toFixed(1) + 'px,0,0)';
                 }
-
-                if (albumHead) albumHead.style.opacity = (1 - clamp(pLift / 0.5, 0, 1)).toFixed(3);
-                if (cap) cap.style.opacity = clamp((pLift - 0.25) / 0.45, 0, 1).toFixed(3);
+                if (cap) cap.style.opacity = clamp((pLift - 0.3) / 0.4, 0, 1).toFixed(3);
             }
 
             requestAnimationFrame(frame);
