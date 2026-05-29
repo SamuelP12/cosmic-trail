@@ -32,18 +32,18 @@ html, body { margin: 0; padding: 0; }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    /* The sky as you scroll: night → predawn → sunrise → dusk → forest */
+    /* The sky as you scroll: early-morning blue → dawn → sunrise → forest */
     background:
         linear-gradient(180deg,
-            #05070e 0%,
-            #0a1024 13%,
-            #161a3a 26%,
-            #2b2348 38%,
-            #4a2c47 48%,
-            #6b3b3f 56%,
-            #3c3a52 65%,
-            #1f3a3c 77%,
-            #163027 87%,
+            #16263f 0%,
+            #213150 12%,
+            #34466a 24%,
+            #50567e 34%,
+            #7a5a78 44%,
+            #b06a55 54%,
+            #6e5560 63%,
+            #2a4642 74%,
+            #1a3327 86%,
             #0a160f 100%);
     background-attachment: scroll;
     color: var(--ink);
@@ -202,27 +202,22 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 760px) { .nav-links { display: none; } }
 
 /* =====================================================
-   Celestial objects (parallax): moon + rising sun
+   Sky: drifting clouds + the rising sun (parallax)
    ===================================================== */
-.orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
-.orb-moon {
-    width: clamp(140px, 18vw, 280px); aspect-ratio: 1;
-    top: 10vh; right: 6vw;
-    background:
-        radial-gradient(circle at 36% 34%, #ffffff, #e7ecf3 30%, #c2cad6 70%, #9aa6b5 100%);
-    box-shadow:
-        inset -22px -18px 44px rgba(60,70,90,0.55),
-        0 0 70px rgba(220,232,255,0.45);
-    opacity: 0.92;
+.clouds { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.cloud {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(255,228,205,0.5), rgba(255,228,205,0) 70%);
+    filter: blur(10px);
+    will-change: transform;
 }
-/* faint craters */
-.orb-moon::before, .orb-moon::after {
-    content: ''; position: absolute; border-radius: 50%;
-    background: rgba(120,132,150,0.28); box-shadow: inset 2px 2px 4px rgba(80,90,110,0.4);
-}
-.orb-moon::before { width: 18%; height: 18%; top: 28%; left: 30%; }
-.orb-moon::after  { width: 12%; height: 12%; top: 58%; left: 56%; }
+.c1 { width: 46vw; height: 15vw; top: 16vh; left: -20vw; opacity: 0.5;  animation: float-cloud 64s linear infinite; }
+.c2 { width: 34vw; height: 12vw; top: 32vh; left: -20vw; opacity: 0.4;  animation: float-cloud 88s linear infinite; animation-delay: -24s; }
+.c3 { width: 40vw; height: 13vw; top: 7vh;  left: -20vw; opacity: 0.32; animation: float-cloud 110s linear infinite; animation-delay: -60s; }
+@keyframes float-cloud { from { transform: translateX(0); } to { transform: translateX(150vw); } }
 
+.orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
 .orb-sun {
     width: clamp(260px, 40vw, 560px); aspect-ratio: 1;
     left: 50%; bottom: 8vh; margin-left: -20vw;
@@ -342,6 +337,16 @@ section { position: relative; }
     height: 32vh;
     background: linear-gradient(180deg, #1d3d2b, #0a1c12);
     clip-path: polygon(0% 100%, 0% 82%, 14% 66%, 26% 86%, 38% 64%, 50% 88%, 62% 66%, 75% 90%, 88% 70%, 100% 86%, 100% 100%);
+}
+/* front-most: a pine treeline silhouette */
+.range-trees {
+    height: 19vh;
+    background: linear-gradient(180deg, #0a1a10, #050d08);
+    clip-path: polygon(
+        0% 100%, 0% 56%, 4% 24%, 8% 56%, 12% 30%, 16% 56%, 20% 22%, 24% 56%,
+        28% 32%, 32% 56%, 36% 20%, 40% 56%, 44% 34%, 48% 56%, 52% 24%, 56% 56%,
+        60% 32%, 64% 56%, 68% 22%, 72% 56%, 76% 34%, 80% 56%, 84% 26%, 88% 56%,
+        92% 32%, 96% 56%, 100% 26%, 100% 100%);
 }
 .trail-path {
     position: absolute;

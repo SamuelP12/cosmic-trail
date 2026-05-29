@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#060a16">
+    <meta name="theme-color" content="#16263f">
     <title>Cosmic Trail — Scout Troop</title>
     <meta name="description" content="A scout troop site — a journey from the stars to the summit.">
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="css/styles.css?v=2">
+    <link rel="stylesheet" href="css/styles.css?v=3">
 </head>
 <body>
 
-    <!-- Fixed night-sky backdrop: starfield that fades into dawn as you descend -->
+    <!-- Atmosphere: drifting pollen / firefly motes on the air -->
     <canvas id="starfield" aria-hidden="true"></canvas>
 
     <!-- Scroll progress: a marker climbing the right edge -->
@@ -40,9 +40,13 @@
 
     <main id="top">
 
-        <!-- ============ HERO : DEEP SPACE ============ -->
+        <!-- ============ HERO : MORNING SKY ============ -->
         <section class="hero" id="hero">
-            <div class="orb orb-moon" data-depth="0.18" aria-hidden="true"></div>
+            <div class="clouds" aria-hidden="true">
+                <span class="cloud c1"></span>
+                <span class="cloud c2"></span>
+                <span class="cloud c3"></span>
+            </div>
             <div class="hero-inner">
                 <p class="eyebrow reveal">★ Est. [year] · [Council / Town]</p>
                 <h1 class="hero-title reveal">
@@ -61,7 +65,7 @@
             </a>
         </section>
 
-        <!-- ============ MISSION : DRIFTING THROUGH SPACE ============ -->
+        <!-- ============ MISSION ============ -->
         <section class="chapter" id="mission">
             <div class="chapter-inner">
                 <p class="kicker reveal">Our Mission</p>
@@ -71,7 +75,7 @@
             </div>
         </section>
 
-        <!-- ============ FACTS : CONSTELLATION OF STATS ============ -->
+        <!-- ============ FACTS ============ -->
         <section class="facts" id="facts">
             <div class="facts-grid">
                 <article class="fact reveal">
@@ -93,7 +97,7 @@
             </div>
         </section>
 
-        <!-- ============ TRAIL : DESCENT TO THE MOUNTAINS ============ -->
+        <!-- ============ TRAIL : SUNRISE OVER THE MOUNTAINS ============ -->
         <section class="trail" id="trail">
             <!-- Sunrise glow rising behind the peaks -->
             <div class="orb orb-sun" data-depth="0.12" aria-hidden="true"></div>
@@ -101,6 +105,7 @@
             <div class="range range-far"  data-depth="0.10" aria-hidden="true"></div>
             <div class="range range-mid"  data-depth="0.22" aria-hidden="true"></div>
             <div class="range range-near" data-depth="0.40" aria-hidden="true"></div>
+            <div class="range range-trees" data-depth="0.52" aria-hidden="true"></div>
 
             <!-- Winding trail that draws itself as you scroll -->
             <svg class="trail-path" viewBox="0 0 400 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -183,6 +188,6 @@
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="js/photos.js?v=1"></script>
-    <script src="js/main.js?v=2"></script>
+    <script src="js/main.js?v=3"></script>
 </body>
 </html>

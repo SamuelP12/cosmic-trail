@@ -36,21 +36,25 @@
         canvas.width = W * dpr; canvas.height = H * dpr;
         canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        const count = Math.min(420, Math.round((W * H) / 4200));
+        const count = Math.min(110, Math.round((W * H) / 13000));
         stars = [];
         for (let i = 0; i < count; i++) {
-            const z = Math.pow(Math.random(), 1.6) * 0.85 + 0.15; // depth, weighted near
+            const z = Math.random() * 0.8 + 0.2;                 // depth
+            const roll = Math.random();
             stars.push({
                 x: Math.random() * W,
                 y: Math.random() * H,
                 z: z,
-                r: z * 1.5 + 0.2,
+                r: z * 1.6 + 0.5,
+                vx: (Math.random() - 0.5) * 0.12,                // gentle drift
+                vy: -(Math.random() * 0.10 + 0.02),             // float upward
                 tw: Math.random() * Math.PI * 2,                 // twinkle phase
-                hue: Math.random() < 0.12 ? (Math.random() < 0.5 ? 'teal' : 'gold') : 'white'
+                hue: roll < 0.55 ? 'gold' : (roll < 0.8 ? 'green' : 'white')
             });
         }
     }
-    const tint = { white: '255,255,255', teal: '120,235,205', gold: '245,200,120' };
+    // Warm pollen / firefly motes drifting in the light
+    const tint = { white: '236,240,228', green: '150,210,150', gold: '245,205,135' };
 
     /* ---------- Scroll state shared by the loop ---------- */
     let lastY = window.scrollY || 0;
@@ -70,36 +74,27 @@
         smoothVel = smoothVel * 0.82 + vel * 0.18;
         const time = t * 0.001;
 
-        /* Starfield — fades out as the sky brightens toward dawn */
+        /* Floating pollen / firefly motes drifting in the air */
         if (ctx) {
             ctx.clearRect(0, 0, W, H);
-            const docMax = document.documentElement.scrollHeight - H;
-            const prog = docMax > 0 ? y / docMax : 0;
-            const skyFade = clamp(1 - prog / 0.46, 0, 1);   // stars gone by ~46% down
-            if (skyFade <= 0.01) { /* daytime: no stars */ }
-            else {
-            const warp = clamp(Math.abs(smoothVel), 0, 90);
-            const dir = smoothVel >= 0 ? 1 : -1;
             for (let i = 0; i < stars.length; i++) {
                 const s = stars[i];
-                const off = (y * s.z * 0.45) % H;
+                s.x += s.vx; s.y += s.vy;
+                if (s.y < -12) s.y = H + 12;
+                if (s.x < -12) s.x = W + 12; else if (s.x > W + 12) s.x = -12;
+                const off = (y * s.z * 0.28) % H;          // parallax with scroll
                 let yy = s.y - off; yy = ((yy % H) + H) % H;
-                const twinkle = 0.55 + 0.45 * Math.sin(time * 1.5 + s.tw);
-                const alpha = (0.25 + s.z * 0.6) * twinkle * skyFade;
-                const streak = warp * s.z * 0.5;
-                ctx.beginPath();
-                if (streak > 1.5) {
-                    ctx.strokeStyle = 'rgba(' + tint[s.hue] + ',' + alpha.toFixed(3) + ')';
-                    ctx.lineWidth = s.r;
-                    ctx.moveTo(s.x, yy);
-                    ctx.lineTo(s.x, yy + streak * dir);
-                    ctx.stroke();
-                } else {
-                    ctx.fillStyle = 'rgba(' + tint[s.hue] + ',' + alpha.toFixed(3) + ')';
-                    ctx.arc(s.x, yy, s.r, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
+                const twinkle = 0.45 + 0.55 * Math.sin(time * 1.6 + s.tw);
+                const a = (0.16 + s.z * 0.4) * twinkle;
+                const c = tint[s.hue];
+                ctx.beginPath();                            // soft halo
+                ctx.fillStyle = 'rgba(' + c + ',' + (a * 0.28).toFixed(3) + ')';
+                ctx.arc(s.x, yy, s.r * 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();                            // core
+                ctx.fillStyle = 'rgba(' + c + ',' + a.toFixed(3) + ')';
+                ctx.arc(s.x, yy, s.r, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
