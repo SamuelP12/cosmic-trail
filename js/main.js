@@ -33,30 +33,59 @@
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    /* Gallery (square tiles from the album) */
-    const grid = document.getElementById('galleryGrid');
-    if (grid) {
+    /* Gallery — 7 photo bubbles that slide in along a winding trail */
+    const bubblesWrap = document.getElementById('bubbles');
+    if (bubblesWrap) {
         const items = (window.GALLERY && window.GALLERY.length) ? window.GALLERY.slice() : [];
-        const TILES = Math.min(8, items.length || 8);
-        for (let i = 0; i < TILES; i++) {
+        const POS = [
+            { l: 30, t: 9.2,  s: -72, max: 230 },
+            { l: 70, t: 23.3, s:  72, max: 185 },
+            { l: 28, t: 37.5, s: -72, max: 205 },
+            { l: 72, t: 51.7, s:  72, max: 175 },
+            { l: 30, t: 65.8, s: -72, max: 215 },
+            { l: 68, t: 80.0, s:  72, max: 190 },
+            { l: 40, t: 92.5, s: -72, max: 235 }
+        ];
+        POS.forEach((p, i) => {
             const it = items.length ? items[i % items.length] : null;
             const fig = document.createElement('figure');
+            fig.className = 'bubble';
+            fig.style.cssText = 'left:' + p.l + '%;top:' + p.t + '%;--slide:' + p.s + 'px;--size:clamp(120px,21vw,' + p.max + 'px)';
             const img = document.createElement('img');
             img.loading = 'lazy';
             if (it) { img.src = /:\/\//.test(it.src) ? it.src : ('photos/' + it.src); img.alt = it.caption || ''; }
             fig.appendChild(img);
-            grid.appendChild(fig);
+            bubblesWrap.appendChild(fig);
+        });
+        const bubbleEls = bubblesWrap.querySelectorAll('.bubble');
+        if ('IntersectionObserver' in window && !reduceMotion) {
+            const bio = new IntersectionObserver((es) => {
+                es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); bio.unobserve(e.target); } });
+            }, { threshold: 0.35 });
+            bubbleEls.forEach((b) => bio.observe(b));
+        } else {
+            bubbleEls.forEach((b) => b.classList.add('in'));
         }
     }
 
-    /* Parallax mountain ranges */
-    const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
-    if (ranges.length && !reduceMotion) {
+    /* Parallax (hero ranges + trail peak) + the trail drawing itself */
+    const parallaxEls = Array.from(document.querySelectorAll('[data-depth]'));
+    const trailmap = document.getElementById('trailmap');
+    const galPath = document.getElementById('galPath');
+    if (!reduceMotion && (parallaxEls.length || trailmap)) {
         const frame = () => {
-            const y = window.scrollY || 0;
-            for (let i = 0; i < ranges.length; i++) {
-                const d = parseFloat(ranges[i].dataset.depth) || 0.1;
-                ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
+            const vh = window.innerHeight;
+            for (let i = 0; i < parallaxEls.length; i++) {
+                const el = parallaxEls[i];
+                const r = el.getBoundingClientRect();
+                const fromCenter = (r.top + r.height / 2) - vh / 2;
+                const d = parseFloat(el.dataset.depth) || 0.1;
+                el.style.transform = 'translate3d(0,' + (-fromCenter * d * 0.14).toFixed(1) + 'px,0)';
+            }
+            if (trailmap && galPath) {
+                const r = trailmap.getBoundingClientRect();
+                const p = clamp((vh * 0.82 - r.top) / (r.height * 0.78), 0, 1);
+                galPath.style.strokeDashoffset = (1000 * (1 - p)).toFixed(1);
             }
             requestAnimationFrame(frame);
         };
