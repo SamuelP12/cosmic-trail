@@ -154,42 +154,49 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
 
-/* Gallery — follow the trail down, then mountains lift to reveal a photo row */
-.album { padding: clamp(70px, 11vh, 130px) 0 0; }
-.album .head { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+/* Gallery — one pinned scene: descend the trail, then the mountains lift away */
+.album { position: relative; height: 360vh; }
+.album-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #dce8f0 0%, #c2d4e0 55%, #a9c0cd 100%); }
 .album-hint { color: var(--faint); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; margin: 14px 0 0; }
 
-/* 1) the winding trail you follow down */
-.trail-down { position: relative; height: 100vh; max-width: 720px; margin: 0 auto; }
-.trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-#downPath { stroke: var(--alpen); opacity: 0.55; }
-.trail-marker {
-    position: absolute; left: 50%; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px;
-    border-radius: 50%; background: var(--alpen);
-    box-shadow: 0 0 0 5px rgba(226,119,63,0.22), 0 4px 12px rgba(22,32,43,0.35);
-}
-
-/* 2) the mountains lift to reveal the side-by-side row */
-.reveal-stage { position: relative; height: 230vh; }
-.reveal-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #dce8f0 0%, #c2d4e0 55%, #aac0cd 100%); }
+/* the row of photos, in the lower band — hidden behind the mountain body until it lifts */
 .photo-row {
-    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
-    height: clamp(280px, 58vh, 540px); z-index: 1;
-    display: flex; gap: 6px; padding: 0 6px;
+    position: absolute; left: 0; right: 0; top: 48vh; bottom: 0; z-index: 1;
+    display: flex; gap: 6px; padding: 0 6px 6px;
 }
 .photo-row figure { flex: 1; min-width: 0; margin: 0; overflow: hidden; border-radius: 10px; background: var(--paper); }
 .photo-row img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease); }
 .photo-row figure:hover img { transform: scale(1.06); }
-.reveal-haze { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse at 50% 46%, transparent 44%, rgba(14,24,34,0.4) 100%); }
-.reveal-cap { position: absolute; z-index: 3; left: 0; right: 0; top: 13%; text-align: center; opacity: 0; will-change: opacity; }
+.reveal-haze { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse at 50% 46%, transparent 46%, rgba(14,24,34,0.4) 100%); }
+.reveal-cap { position: absolute; z-index: 3; left: 0; right: 0; top: 12%; text-align: center; opacity: 0; will-change: opacity; }
+.reveal-cap .h2 { color: #fff; }
 
-.ridge { position: absolute; left: -2%; right: -2%; bottom: 0; will-change: transform; }
-.ridge-3 { z-index: 4; height: 76vh; background: linear-gradient(180deg,#4a4f70,#343a56);
-    clip-path: polygon(0 100%,0 50%,12% 64%,24% 34%,36% 58%,50% 28%,62% 54%,76% 34%,88% 60%,100% 42%,100% 100%); }
-.ridge-2 { z-index: 5; height: 92vh; background: linear-gradient(180deg,#283150,#1b2238);
-    clip-path: polygon(0 100%,0 60%,14% 44%,28% 66%,40% 40%,54% 64%,68% 42%,82% 66%,100% 48%,100% 100%); }
-.ridge-1 { z-index: 6; height: 114vh; background: linear-gradient(180deg,#141d2c,#0c1320);
-    clip-path: polygon(0 100%,0 70%,16% 52%,30% 72%,46% 48%,60% 70%,76% 50%,100% 66%,100% 100%); }
+/* layered mountains that cover the photos, then lift */
+/* All ridges fill the viewport (100vh): peaks rise into the sky up top,
+   solid bodies cover the lower band where the photos sit. Front ridge's
+   lowest valley (~46%) stays above the photo band (top 48vh) so nothing
+   peeks through until they lift. */
+.ridge { position: absolute; left: -2%; right: -2%; bottom: 0; height: 100vh; will-change: transform; }
+.ridge-3 { z-index: 4; background: linear-gradient(180deg,#4a4f70,#343a56);
+    clip-path: polygon(0 100%,0 34%,16% 18%,32% 36%,48% 16%,64% 34%,80% 18%,100% 32%,100% 100%); }
+.ridge-2 { z-index: 5; background: linear-gradient(180deg,#283150,#1b2238);
+    clip-path: polygon(0 100%,0 40%,14% 24%,28% 42%,42% 22%,56% 40%,70% 24%,84% 42%,100% 28%,100% 100%); }
+.ridge-1 { z-index: 6; background: linear-gradient(180deg,#141d2c,#0c1320);
+    clip-path: polygon(0 100%,0 46%,12% 30%,26% 46%,40% 26%,52% 44%,64% 28%,78% 46%,90% 30%,100% 42%,100% 100%); }
+
+/* the trail drawn down the mountainside + the marker that descends it */
+.trail-layer { position: absolute; inset: 0; z-index: 7; will-change: transform; pointer-events: none; }
+.trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+#downPath { stroke: var(--alpen); filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4)); }
+.trail-marker {
+    position: absolute; left: 50%; top: 3%; width: 18px; height: 18px; margin: -9px 0 0 -9px;
+    border-radius: 50%; background: var(--alpen); opacity: 0;
+    box-shadow: 0 0 0 6px rgba(226,119,63,0.25), 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* heading while descending, fades as the peaks lift */
+.album-head { position: absolute; z-index: 8; left: 0; right: 0; top: 16%; text-align: center; padding: 0 var(--pad); will-change: opacity; }
+.album-head .kicker { display: block; }
 @media (max-width: 720px) { .photo-row { gap: 4px; } }
 
 /* Adventures */
@@ -224,8 +231,16 @@ html.lenis, html.lenis body { height: auto; }
 .reveal { opacity: 0; transform: translateY(28px); filter: blur(4px); transition: opacity .9s var(--ease), transform 1.05s var(--ease), filter .9s var(--ease); transition-delay: var(--reveal-delay, 0ms); will-change: opacity, transform; }
 .reveal.in { opacity: 1; transform: none; filter: none; }
 @media (prefers-reduced-motion: reduce) {
-    .reveal, .grid figure { opacity: 1; transform: none; filter: none; transition: none; }
+    .reveal { opacity: 1; transform: none; filter: none; transition: none; }
     .scroll-cue span, .sun, .hero-title .accent { animation: none; }
     .hero-title .accent { color: var(--alpen); }
     html { scroll-behavior: auto; }
+    /* Gallery: drop the pin/cover, just show the row of photos */
+    .album { height: auto; }
+    .album-pin { position: static; height: auto; padding: clamp(60px,9vh,110px) 0; }
+    .ridge, .trail-layer, .album-head, .reveal-haze { display: none; }
+    .photo-row { position: static; transform: none; height: clamp(220px, 40vh, 360px); }
+    .reveal-cap { position: static; opacity: 1; margin-bottom: 22px; }
+    .reveal-cap .kicker { color: var(--alpen); }
+    .reveal-cap .h2 { color: var(--ink); }
 }

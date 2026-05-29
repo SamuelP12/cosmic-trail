@@ -59,15 +59,15 @@
 
     /* Scroll-driven motion:
        - hero ranges parallax
-       - trail line draws + marker rides it
-       - mountains lift to reveal the photo row */
+       - gallery: one pinned scene — descend the trail (first half),
+         then the mountains lift to reveal the photo row (second half) */
     const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
-    const trailDown = document.getElementById('trailDown');
+    const album = document.getElementById('gallery');
     const downPath = document.getElementById('downPath');
     const marker = document.getElementById('trailMarker');
-    const stage = document.getElementById('revealStage');
-    const ridges = Array.from(document.querySelectorAll('.ridge'));
+    const risers = Array.from(document.querySelectorAll('[data-rise]'));
     const cap = document.querySelector('.reveal-cap');
+    const albumHead = document.getElementById('albumHead');
     const pathLen = downPath ? downPath.getTotalLength() : 0;
 
     if (!reduceMotion) {
@@ -75,40 +75,44 @@
             const y = window.scrollY || 0;
             const vh = window.innerHeight;
 
-            // hero ranges
+            // hero ranges parallax
             for (let i = 0; i < ranges.length; i++) {
                 const d = parseFloat(ranges[i].dataset.depth) || 0.1;
                 ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
 
-            // trail line draws + marker rides along it
-            if (trailDown && downPath) {
-                const r = trailDown.getBoundingClientRect();
-                const p = clamp((vh * 0.6 - r.top) / (r.height * 0.7), 0, 1);
-                downPath.style.strokeDashoffset = (1000 * (1 - p)).toFixed(1);
-                if (marker && pathLen) {
-                    const pt = downPath.getPointAtLength(p * pathLen);
-                    marker.style.left = (pt.x) + '%';
-                    marker.style.top = (pt.y / 600 * 100) + '%';
-                    marker.style.opacity = p > 0.01 && p < 0.995 ? 1 : 0;
-                }
-            }
-
-            // mountains lift to reveal the photo row
-            if (stage && ridges.length) {
-                const r = stage.getBoundingClientRect();
-                const total = stage.offsetHeight - vh;
+            // pinned gallery scene
+            if (album) {
+                const r = album.getBoundingClientRect();
+                const total = album.offsetHeight - vh;
                 const p = clamp(-r.top / total, 0, 1);
-                for (let i = 0; i < ridges.length; i++) {
-                    const rise = parseFloat(ridges[i].dataset.rise) || 1;
-                    ridges[i].style.transform = 'translate3d(0,' + (-p * vh * rise).toFixed(1) + 'px,0)';
+                const pA = clamp(p / 0.5, 0, 1);          // descend the trail
+                const pB = clamp((p - 0.5) / 0.5, 0, 1);  // lift the mountains
+
+                // trail draws + marker descends
+                if (downPath) downPath.style.strokeDashoffset = (1000 * (1 - pA)).toFixed(1);
+                if (marker && pathLen) {
+                    const pt = downPath.getPointAtLength(pA * pathLen);
+                    marker.style.left = pt.x + '%';
+                    marker.style.top = pt.y + '%';
+                    marker.style.opacity = pA > 0.015 ? 1 : 0;
                 }
-                if (cap) cap.style.opacity = clamp((p - 0.2) / 0.4, 0, 1).toFixed(3);
+
+                // mountains (and the trail layer) lift away
+                for (let i = 0; i < risers.length; i++) {
+                    const rise = parseFloat(risers[i].dataset.rise) || 1;
+                    risers[i].style.transform = 'translate3d(0,' + (-pB * vh * rise).toFixed(1) + 'px,0)';
+                }
+
+                if (albumHead) albumHead.style.opacity = (1 - clamp(pB / 0.5, 0, 1)).toFixed(3);
+                if (cap) cap.style.opacity = clamp((pB - 0.25) / 0.45, 0, 1).toFixed(3);
             }
 
             requestAnimationFrame(frame);
         };
         requestAnimationFrame(frame);
+    } else if (cap) {
+        cap.style.opacity = 1;
     }
 
     /* Reveal on scroll (gentle stagger) */
