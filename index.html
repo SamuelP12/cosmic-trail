@@ -3,33 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f4eddc">
-    <title>Troop [000] — The Trail</title>
-    <meta name="description" content="A scout troop — backpacking, camping, service, and the trail. Field notes from the wild.">
+    <meta name="theme-color" content="#0e1822">
+    <title>Troop [000]</title>
+    <meta name="description" content="A scout troop in the mountains — adventure, skill, and the summit.">
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=4">
+    <link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
 
-    <!-- Nav -->
     <header class="nav" id="nav">
         <div class="nav-inner">
             <a href="#top" class="brand">
-                <span class="blaze" aria-hidden="true"></span>
+                <svg class="brand-peak" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21 9 7l4 7 3-5 6 12z"/></svg>
                 Troop&nbsp;[000]
             </a>
             <nav class="nav-links">
-                <a href="#about">Who we are</a>
-                <a href="#pillars">What we do</a>
-                <a href="#album">The Album</a>
+                <a href="#about">About</a>
+                <a href="#do">What we do</a>
+                <a href="#gallery">Gallery</a>
                 <a href="#trips">Adventures</a>
             </nav>
-            <a href="#join" class="nav-cta">Join the troop</a>
+            <a href="#join" class="nav-cta">Join us</a>
         </div>
     </header>
 
@@ -37,147 +33,113 @@
 
         <!-- ============ HERO ============ -->
         <section class="hero" id="hero">
-            <div class="topo" aria-hidden="true"></div>
+            <div class="sky" aria-hidden="true"><span class="sun"></span></div>
             <div class="hero-inner">
-                <p class="overline reveal"><span class="blaze" aria-hidden="true"></span> Field Guide · Est. [year] · [Town, ST]</p>
-                <h1 class="hero-title reveal">Get out<br/>and <span class="u">explore</span>.</h1>
-                <p class="hero-sub reveal">[ A line or two about the troop — adventure, the outdoors, growing up in the backcountry. Replace later. ]</p>
+                <p class="eyebrow reveal">Est. [year] · [Town, ST]</p>
+                <h1 class="hero-title reveal">Reach the<br/><span class="accent">summit</span>.</h1>
+                <p class="hero-sub reveal">[ A line or two about the troop — who you are and the adventure ahead. Replace later. ]</p>
                 <div class="actions reveal">
                     <a href="#join" class="btn btn-solid">Join the troop</a>
-                    <a href="#about" class="btn btn-line">Read the guide</a>
+                    <a href="#about" class="btn btn-ghost">Learn more</a>
                 </div>
             </div>
-            <!-- Decorative daytime range at the foot of the hero -->
-            <div class="hero-range" aria-hidden="true">
-                <div class="hill hill-3" data-depth="0.05"></div>
-                <div class="hill hill-2" data-depth="0.12"></div>
-                <div class="hill hill-1" data-depth="0.20"></div>
+            <!-- Layered parallax mountain ranges -->
+            <div class="peaks" aria-hidden="true">
+                <div class="range r4" data-depth="0.06"></div>
+                <div class="range r3" data-depth="0.12"></div>
+                <div class="range r2" data-depth="0.20"></div>
+                <div class="range r1" data-depth="0.30"></div>
             </div>
+            <a href="#about" class="scroll-cue reveal" aria-label="Scroll down"><span></span></a>
         </section>
-
-        <!-- ============ MARQUEE ============ -->
-        <div class="marquee" aria-hidden="true">
-            <div class="marquee-track">
-                <span>Backpacking ✦ Summits ✦ Campfires ✦ Service ✦ Knots ✦ Maps &amp; Compass ✦ Leadership ✦ Wild Places ✦</span>
-                <span>Backpacking ✦ Summits ✦ Campfires ✦ Service ✦ Knots ✦ Maps &amp; Compass ✦ Leadership ✦ Wild Places ✦</span>
-            </div>
-        </div>
 
         <!-- ============ ABOUT ============ -->
-        <section class="about" id="about">
-            <div class="about-grid">
-                <div class="about-text">
-                    <p class="kicker reveal">Who we are</p>
-                    <h2 class="h2 reveal">[ A bold line about the troop ]</h2>
-                    <p class="body reveal">[ Placeholder paragraph. Who you are, where you roam, what scouting means here. Swap this out later — for now it holds the layout. ]</p>
-                    <p class="body reveal">[ A second short paragraph if you want it. ]</p>
-                    <ul class="checks reveal">
-                        <li>[ Open to scouts ages 00–00 ]</li>
-                        <li>[ Meets [day] at [place] ]</li>
-                        <li>[ All experience levels welcome ]</li>
-                    </ul>
+        <section class="section about" id="about">
+            <div class="wrap">
+                <p class="kicker reveal">About us</p>
+                <h2 class="statement reveal">[ A bold statement about who the troop is and what the mountains teach. Swap this for real copy later. ]</h2>
+            </div>
+        </section>
+
+        <!-- ============ WHAT WE DO ============ -->
+        <section class="section do" id="do">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="kicker">What we do</p>
+                    <h2 class="h2">[ Built in the backcountry ]</h2>
                 </div>
-                <div class="about-photo reveal">
-                    <figure class="polaroid">
-                        <img src="https://picsum.photos/seed/troopabout/720/720" alt="" loading="lazy"/>
-                        <figcaption>[ photo caption ]</figcaption>
-                    </figure>
+                <div class="cards">
+                    <article class="card reveal">
+                        <span class="card-no">01</span>
+                        <h3>[ Adventure ]</h3>
+                        <p>[ Backpacking, climbing, paddling, winter camping — real trips, real peaks. ]</p>
+                    </article>
+                    <article class="card reveal">
+                        <span class="card-no">02</span>
+                        <h3>[ Skills ]</h3>
+                        <p>[ Navigation, first aid, fire, knots, and leave-no-trace. ]</p>
+                    </article>
+                    <article class="card reveal">
+                        <span class="card-no">03</span>
+                        <h3>[ Service ]</h3>
+                        <p>[ Trail work and conservation — leaving the mountains better. ]</p>
+                    </article>
+                    <article class="card reveal">
+                        <span class="card-no">04</span>
+                        <h3>[ Leadership ]</h3>
+                        <p>[ Scout-led: plan it, lead it, own it. ]</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- ============ PILLARS ============ -->
-        <section class="pillars" id="pillars">
-            <div class="section-head reveal">
-                <p class="kicker">What we do</p>
-                <h2 class="h2">[ Four ways we grow ]</h2>
-            </div>
-            <div class="pillar-grid">
-                <article class="pillar reveal">
-                    <span class="pillar-icon" aria-hidden="true">
-                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 8 40h32z"/><path d="M24 20 16 40m8-20 8 20"/></svg>
-                    </span>
-                    <h3>[ Adventure ]</h3>
-                    <p>[ Backpacking, summits, paddling, winter camping — the real stuff. ]</p>
-                </article>
-                <article class="pillar reveal">
-                    <span class="pillar-icon" aria-hidden="true">
-                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><path d="m30 18-8 4-4 8 8-4z"/></svg>
-                    </span>
-                    <h3>[ Skills ]</h3>
-                    <p>[ Navigation, first aid, fire, knots, leave-no-trace. ]</p>
-                </article>
-                <article class="pillar reveal">
-                    <span class="pillar-icon" aria-hidden="true">
-                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8c4 6 6 9 6 14a6 6 0 0 1-12 0c0-3 2-5 6-14z"/><path d="M12 40h24M16 40l16-6m-16 0 16 6"/></svg>
-                    </span>
-                    <h3>[ Service ]</h3>
-                    <p>[ Trail work, conservation, giving back to the community. ]</p>
-                </article>
-                <article class="pillar reveal">
-                    <span class="pillar-icon" aria-hidden="true">
-                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38 22 12l8 12 4-6 6 20z"/></svg>
-                    </span>
-                    <h3>[ Leadership ]</h3>
-                    <p>[ Scout-led from day one — plan it, lead it, own it. ]</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- ============ THE ALBUM : mountains lift to reveal the photos ============ -->
-        <section class="album" id="album">
-            <div class="album-sticky">
-                <!-- Photo wall behind (built from js/photos.js) -->
-                <div class="photo-wall" id="photoWall"></div>
-                <div class="album-haze" aria-hidden="true"></div>
-
-                <!-- Caption that fades in as the peaks lift -->
-                <div class="album-caption">
-                    <p class="kicker on-dark">Where we've been</p>
-                    <h2 class="h2 on-dark">The Album</h2>
-                    <p class="album-hint on-dark">[ keep scrolling ]</p>
+        <!-- ============ GALLERY ============ -->
+        <section class="section gallery" id="gallery">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="kicker">Gallery</p>
+                    <h2 class="h2">[ On the mountain ]</h2>
                 </div>
-
-                <!-- Foreground ridges that rise to uncover the wall -->
-                <div class="ridge ridge-3" data-rise="0.80" aria-hidden="true"></div>
-                <div class="ridge ridge-2" data-rise="1.05" aria-hidden="true"></div>
-                <div class="ridge ridge-1" data-rise="1.32" aria-hidden="true"></div>
             </div>
+            <div class="grid" id="galleryGrid"></div>
         </section>
 
         <!-- ============ ADVENTURES ============ -->
-        <section class="trips" id="trips">
-            <div class="section-head reveal">
-                <p class="kicker">On the calendar</p>
-                <h2 class="h2">[ Adventures ]</h2>
+        <section class="section trips" id="trips">
+            <div class="wrap">
+                <div class="head reveal">
+                    <p class="kicker">On the calendar</p>
+                    <h2 class="h2">[ Adventures ]</h2>
+                </div>
+                <ul class="trip-list">
+                    <li class="trip reveal">
+                        <span class="trip-when">[ Month ’00 ]</span>
+                        <span class="trip-what">[ Trip name — a short line about it. ]</span>
+                        <svg class="trip-peak" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21 9 7l4 7 3-5 6 12z"/></svg>
+                    </li>
+                    <li class="trip reveal">
+                        <span class="trip-when">[ Month ’00 ]</span>
+                        <span class="trip-what">[ Trip name — a short line about it. ]</span>
+                        <svg class="trip-peak" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21 9 7l4 7 3-5 6 12z"/></svg>
+                    </li>
+                    <li class="trip reveal">
+                        <span class="trip-when">[ Month ’00 ]</span>
+                        <span class="trip-what">[ Trip name — a short line about it. ]</span>
+                        <svg class="trip-peak" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21 9 7l4 7 3-5 6 12z"/></svg>
+                    </li>
+                </ul>
             </div>
-            <ol class="trail-list">
-                <li class="stop reveal">
-                    <span class="stop-blaze" aria-hidden="true"></span>
-                    <p class="stop-when">[ Month ’00 ]</p>
-                    <p class="stop-what">[ Trip name — a short line about it. ]</p>
-                </li>
-                <li class="stop reveal">
-                    <span class="stop-blaze" aria-hidden="true"></span>
-                    <p class="stop-when">[ Month ’00 ]</p>
-                    <p class="stop-what">[ Trip name — a short line about it. ]</p>
-                </li>
-                <li class="stop reveal">
-                    <span class="stop-blaze" aria-hidden="true"></span>
-                    <p class="stop-when">[ Month ’00 ]</p>
-                    <p class="stop-what">[ Trip name — a short line about it. ]</p>
-                </li>
-            </ol>
         </section>
 
         <!-- ============ JOIN ============ -->
         <section class="join" id="join">
-            <div class="join-inner reveal">
-                <h2 class="join-title">[ Come find the trail with us ]</h2>
-                <p class="join-sub">[ Who can join, when you meet, and how to reach out. ]</p>
+            <div class="peaks-mini" aria-hidden="true"></div>
+            <div class="wrap join-inner reveal">
+                <h2 class="join-title">[ Your first summit starts here ]</h2>
+                <p class="join-sub">[ Who can join, when you meet, how to reach out. ]</p>
                 <div class="actions">
-                    <a href="mailto:[email]" class="btn btn-solid btn-light">Get in touch</a>
-                    <a href="#top" class="btn btn-line btn-light">Back to top ↑</a>
+                    <a href="mailto:[email]" class="btn btn-solid">Get in touch</a>
+                    <a href="#top" class="btn btn-ghost on-dark">Back to top ↑</a>
                 </div>
             </div>
         </section>
@@ -185,12 +147,15 @@
     </main>
 
     <footer class="footer">
-        <p class="foot-brand"><span class="blaze" aria-hidden="true"></span> Troop [000]</p>
+        <p class="foot-brand">
+            <svg class="brand-peak" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21 9 7l4 7 3-5 6 12z"/></svg>
+            Troop [000]
+        </p>
         <p class="foot-meta">[ Council · Town, ST ] · © <span id="year"></span></p>
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script src="js/photos.js?v=2"></script>
-    <script src="js/main.js?v=4"></script>
+    <script src="js/photos.js?v=3"></script>
+    <script src="js/main.js?v=5"></script>
 </body>
 </html>

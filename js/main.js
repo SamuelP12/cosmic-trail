@@ -1,12 +1,12 @@
 /* =====================================================
-   Troop [000] — Field Guide interactions
+   Troop [000] — Mountain interactions
    ===================================================== */
 (function () {
     'use strict';
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-    /* ---------- Smooth scroll ---------- */
+    /* Smooth scroll */
     if (!reduceMotion && window.Lenis) {
         const lenis = new Lenis({ duration: 1.05, lerp: 0.1, wheelMultiplier: 1.0, touchMultiplier: 1.6 });
         const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
@@ -15,79 +15,55 @@
             a.addEventListener('click', (e) => {
                 const id = a.getAttribute('href');
                 if (id === '#' || id.length < 2) return;
-                const target = document.querySelector(id);
-                if (!target) return;
+                const t = document.querySelector(id);
+                if (!t) return;
                 e.preventDefault();
-                lenis.scrollTo(target, { offset: -10, duration: 1.4 });
+                lenis.scrollTo(t, { offset: -10, duration: 1.4 });
             });
         });
     }
 
-    /* ---------- Footer year ---------- */
+    /* Footer year */
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    /* ---------- Nav state ---------- */
+    /* Nav state */
     const nav = document.getElementById('nav');
-    const onScroll = () => { if (nav) nav.classList.toggle('scrolled', (window.scrollY || 0) > 20); };
+    const onScroll = () => { if (nav) nav.classList.toggle('scrolled', (window.scrollY || 0) > 24); };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    /* ---------- Build the photo wall (4 x 3) from the album ---------- */
-    const wall = document.getElementById('photoWall');
-    if (wall) {
+    /* Gallery (square tiles from the album) */
+    const grid = document.getElementById('galleryGrid');
+    if (grid) {
         const items = (window.GALLERY && window.GALLERY.length) ? window.GALLERY.slice() : [];
-        const TILES = 12;
+        const TILES = Math.min(8, items.length || 8);
         for (let i = 0; i < TILES; i++) {
             const it = items.length ? items[i % items.length] : null;
+            const fig = document.createElement('figure');
             const img = document.createElement('img');
             img.loading = 'lazy';
-            if (it) {
-                img.src = /:\/\//.test(it.src) ? it.src : ('photos/' + it.src);
-                img.alt = it.caption || '';
-            } else {
-                img.alt = '';
-                img.style.background = 'rgba(35,41,31,0.12)';
-            }
-            wall.appendChild(img);
+            if (it) { img.src = /:\/\//.test(it.src) ? it.src : ('photos/' + it.src); img.alt = it.caption || ''; }
+            fig.appendChild(img);
+            grid.appendChild(fig);
         }
     }
 
-    /* ---------- Scroll-driven motion (hero parallax + album reveal) ---------- */
-    const hills = Array.from(document.querySelectorAll('.hill[data-depth]'));
-    const album = document.getElementById('album');
-    const ridges = Array.from(document.querySelectorAll('.ridge'));
-    const caption = document.querySelector('.album-caption');
-
-    function frame() {
-        const y = window.scrollY || 0;
-        const vh = window.innerHeight;
-
-        // Hero hills: gentle parallax drift
-        for (let i = 0; i < hills.length; i++) {
-            const d = parseFloat(hills[i].dataset.depth) || 0.1;
-            hills[i].style.transform = 'translate3d(0,' + (y * d * 0.35).toFixed(1) + 'px,0)';
-        }
-
-        // Album: ridgeline lifts to reveal the photo wall
-        if (album && ridges.length) {
-            const rect = album.getBoundingClientRect();
-            const total = album.offsetHeight - vh;
-            const p = clamp(-rect.top / total, 0, 1);
-            for (let i = 0; i < ridges.length; i++) {
-                const rise = parseFloat(ridges[i].dataset.rise) || 1;
-                ridges[i].style.transform = 'translate3d(0,' + (-p * vh * rise).toFixed(1) + 'px,0)';
+    /* Parallax mountain ranges */
+    const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
+    if (ranges.length && !reduceMotion) {
+        const frame = () => {
+            const y = window.scrollY || 0;
+            for (let i = 0; i < ranges.length; i++) {
+                const d = parseFloat(ranges[i].dataset.depth) || 0.1;
+                ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
-            if (wall) wall.style.transform = 'scale(' + (1.12 - 0.12 * p).toFixed(3) + ')';
-            if (caption) caption.style.opacity = clamp((p - 0.22) / 0.4, 0, 1).toFixed(3);
-        }
-
+            requestAnimationFrame(frame);
+        };
         requestAnimationFrame(frame);
     }
-    if (!reduceMotion) requestAnimationFrame(frame);
-    else if (caption) caption.style.opacity = 1;
 
-    /* ---------- Reveal on scroll (gentle stagger) ---------- */
+    /* Reveal on scroll (gentle stagger) */
     const reveals = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && !reduceMotion) {
         reveals.forEach((el) => {
