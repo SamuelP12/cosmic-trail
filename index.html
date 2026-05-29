@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="css/styles.css?v=7">
+    <link rel="stylesheet" href="css/styles.css?v=8">
 </head>
 <body>
 
@@ -95,15 +95,36 @@
             </div>
         </section>
 
-        <!-- ============ GALLERY ============ -->
-        <section class="section gallery" id="gallery">
-            <div class="wrap">
-                <div class="head reveal">
-                    <p class="kicker">Gallery</p>
-                    <h2 class="h2">[ On the mountain ]</h2>
+        <!-- ============ GALLERY : follow the trail down, then mountains lift ============ -->
+        <section class="album" id="gallery">
+            <div class="wrap head reveal">
+                <p class="kicker">Gallery</p>
+                <h2 class="h2">[ On the mountain ]</h2>
+                <p class="album-hint">Follow the trail down ↓</p>
+            </div>
+
+            <!-- 1) Follow the trail line down -->
+            <div class="trail-down" id="trailDown">
+                <svg class="trail-svg" viewBox="0 0 100 600" preserveAspectRatio="none" aria-hidden="true">
+                    <path id="downPath" pathLength="1000" vector-effect="non-scaling-stroke"
+                          d="M50,0 C26,110 74,210 50,320 S22,470 50,560 50,600 50,600"
+                          fill="none" stroke-width="3" stroke-linecap="round"
+                          stroke-dasharray="1000" stroke-dashoffset="1000"/>
+                </svg>
+                <span class="trail-marker" id="trailMarker" aria-hidden="true"></span>
+            </div>
+
+            <!-- 2) Scroll the mountains up to reveal the row of photos -->
+            <div class="reveal-stage" id="revealStage">
+                <div class="reveal-sticky">
+                    <div class="photo-row" id="photoRow"></div>
+                    <div class="reveal-haze" aria-hidden="true"></div>
+                    <div class="reveal-cap"><p class="kicker on-dark">Where we've been</p></div>
+                    <div class="ridge ridge-3" data-rise="0.80" aria-hidden="true"></div>
+                    <div class="ridge ridge-2" data-rise="1.05" aria-hidden="true"></div>
+                    <div class="ridge ridge-1" data-rise="1.32" aria-hidden="true"></div>
                 </div>
             </div>
-            <div class="grid" id="galleryGrid"></div>
         </section>
 
         <!-- ============ ADVENTURES ============ -->
@@ -158,6 +179,6 @@
 
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="js/photos.js?v=3"></script>
-    <script src="js/main.js?v=7"></script>
+    <script src="js/main.js?v=8"></script>
 </body>
 </html>

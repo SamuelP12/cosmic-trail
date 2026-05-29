@@ -41,41 +41,71 @@
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    /* Gallery (square tiles from the album) — cascade in by row */
-    const grid = document.getElementById('galleryGrid');
-    if (grid) {
+    /* Gallery: build the side-by-side photo row from the album */
+    const photoRow = document.getElementById('photoRow');
+    if (photoRow) {
         const items = (window.GALLERY && window.GALLERY.length) ? window.GALLERY.slice() : [];
-        const TILES = Math.min(8, items.length || 8);
-        for (let i = 0; i < TILES; i++) {
-            const it = items.length ? items[i % items.length] : null;
+        const N = items.length ? items.length : 7;
+        for (let i = 0; i < N; i++) {
+            const it = items.length ? items[i] : null;
             const fig = document.createElement('figure');
-            fig.style.setProperty('--reveal-delay', ((i % 4) * 90) + 'ms');
             const img = document.createElement('img');
             img.loading = 'lazy';
             if (it) { img.src = /:\/\//.test(it.src) ? it.src : ('photos/' + it.src); img.alt = it.caption || ''; }
             fig.appendChild(img);
-            grid.appendChild(fig);
-        }
-        const figs = grid.querySelectorAll('figure');
-        if ('IntersectionObserver' in window && !reduceMotion) {
-            const gio = new IntersectionObserver((es) => {
-                es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); gio.unobserve(e.target); } });
-            }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
-            figs.forEach((f) => gio.observe(f));
-        } else {
-            figs.forEach((f) => f.classList.add('in'));
+            photoRow.appendChild(fig);
         }
     }
 
-    /* Parallax mountain ranges */
+    /* Scroll-driven motion:
+       - hero ranges parallax
+       - trail line draws + marker rides it
+       - mountains lift to reveal the photo row */
     const ranges = Array.from(document.querySelectorAll('.range[data-depth]'));
-    if (ranges.length && !reduceMotion) {
+    const trailDown = document.getElementById('trailDown');
+    const downPath = document.getElementById('downPath');
+    const marker = document.getElementById('trailMarker');
+    const stage = document.getElementById('revealStage');
+    const ridges = Array.from(document.querySelectorAll('.ridge'));
+    const cap = document.querySelector('.reveal-cap');
+    const pathLen = downPath ? downPath.getTotalLength() : 0;
+
+    if (!reduceMotion) {
         const frame = () => {
             const y = window.scrollY || 0;
+            const vh = window.innerHeight;
+
+            // hero ranges
             for (let i = 0; i < ranges.length; i++) {
                 const d = parseFloat(ranges[i].dataset.depth) || 0.1;
                 ranges[i].style.transform = 'translate3d(0,' + (y * d * 0.32).toFixed(1) + 'px,0)';
             }
+
+            // trail line draws + marker rides along it
+            if (trailDown && downPath) {
+                const r = trailDown.getBoundingClientRect();
+                const p = clamp((vh * 0.6 - r.top) / (r.height * 0.7), 0, 1);
+                downPath.style.strokeDashoffset = (1000 * (1 - p)).toFixed(1);
+                if (marker && pathLen) {
+                    const pt = downPath.getPointAtLength(p * pathLen);
+                    marker.style.left = (pt.x) + '%';
+                    marker.style.top = (pt.y / 600 * 100) + '%';
+                    marker.style.opacity = p > 0.01 && p < 0.995 ? 1 : 0;
+                }
+            }
+
+            // mountains lift to reveal the photo row
+            if (stage && ridges.length) {
+                const r = stage.getBoundingClientRect();
+                const total = stage.offsetHeight - vh;
+                const p = clamp(-r.top / total, 0, 1);
+                for (let i = 0; i < ridges.length; i++) {
+                    const rise = parseFloat(ridges[i].dataset.rise) || 1;
+                    ridges[i].style.transform = 'translate3d(0,' + (-p * vh * rise).toFixed(1) + 'px,0)';
+                }
+                if (cap) cap.style.opacity = clamp((p - 0.2) / 0.4, 0, 1).toFixed(3);
+            }
+
             requestAnimationFrame(frame);
         };
         requestAnimationFrame(frame);
